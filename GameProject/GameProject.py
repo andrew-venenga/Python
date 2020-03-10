@@ -12,6 +12,7 @@ import random
 computer_wins = 0
 player_wins = 0
 
+ula = input("This is a game that uses rock/paper/scissors logic and is to keep track of the user's and computers score. \nTo Start press enter. \nTo exit press Control + C")
 def Choose_Option():
     user_choice = input("Choose the Flu(F), CoronaVirus(C), or Ebola(E): ")
     if user_choice in ["Flu", "flu", "f", "F", "FLU"]:
