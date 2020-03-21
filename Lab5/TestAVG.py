@@ -1,15 +1,15 @@
-a = int(input('Enter a score for test A: '))
-b = int(input('Enter a score for test B: '))
-c = int(input('Enter a score for test C: '))
-d = int(input('Enter a score for test D: '))
-e = int(input('Enter a score for test E: '))
+testOne = int(input('Enter a score for test one: '))
+testTwo = int(input('Enter a score for test two: '))
+testThree = int(input('Enter a score for test three: '))
+testFour = int(input('Enter a score for test four: '))
+testFive = int(input('Enter a score for test five: '))
 
-def calcAverage(a, b, c, d, e):
-    average = (a + b + c + d + e) / 5
+def calcAverage(testOne, testTwo, testThree, testFour, testFive):
+    average = (testOne + testTwo + testThree + testFour + testFive) / 5
 
     return average
-
-def determineGrade(a, b, c, d, e):
+##TODO FUCKING CHANGE THE VARIABLE NAMES YOU DUMB SON OF A BITCH
+def determineGrade(testOne, testTwo, testThree, testFour, testFive):
     for i in a, b, c, d, e:
         if 90 <= i:
             print('The grade of', i, 'is A')
