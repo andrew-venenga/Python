@@ -9,7 +9,7 @@ def calcAverage(testOne, testTwo, testThree, testFour, testFive):
 
     return average
 ##TODO FUCKING CHANGE THE VARIABLE NAMES YOU DUMB SON OF A BITCH
-def determineGrade(testOne, testTwo, testThree, testFour, testFive):
+def finalGrade(testOne, testTwo, testThree, testFour, testFive):
     for i in a, b, c, d, e:
         if 90 <= i:
             print('The grade of', i, 'is A')
@@ -21,6 +21,6 @@ def determineGrade(testOne, testTwo, testThree, testFour, testFive):
             print('The grade of', i, 'is D')
         elif i < 60:
             print('The grade of', i, 'is F')
-average = calcAverage(a, b, c, d, e)
+average = calcAverage(testOne, testTwo, testThree, testFour, testFive)
 print('The average of your scores is', average)
-determineGrade(a, b, c, d, e)
+finalGrade(testOne, testTwo, testThree, testFour, testFive)
