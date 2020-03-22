@@ -1,6 +1,6 @@
-FT_PER_GAL = 112
-LABOR_HRS = 8
-LABOR_CHARGE = 35
+feetPerGal = 112
+laborHrs = 8
+laborCharge = 35
 
 
 def main():
@@ -9,10 +9,10 @@ def main():
   paint(sqrFt, paintCost)
  
 def paint(sqrFt, paintCost):
-  paintGals = sqrFt / FT_PER_GAL
-  labor = LABOR_HRS * paintGals
+  paintGals = sqrFt / feetPerGal
+  labor = laborHrs * paintGals
   paintCharge = paintGals * paintCost
-  laborCost = labor * LABOR_CHARGE
+  laborCost = labor * laborCharge
   total = paintCharge + laborCost
   totalCost(paintGals, labor, paintCharge, laborCost, total)
   
