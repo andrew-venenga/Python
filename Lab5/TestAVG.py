@@ -8,7 +8,6 @@ def calcAverage(testOne, testTwo, testThree, testFour, testFive):
     average = (testOne + testTwo + testThree + testFour + testFive) / 5
 
     return average
-##TODO FUCKING CHANGE THE VARIABLE NAMES YOU DUMB SON OF A BITCH
 def finalGrade(testOne, testTwo, testThree, testFour, testFive):
     for i in a, b, c, d, e:
         if 90 <= i:
