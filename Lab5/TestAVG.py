@@ -6,10 +6,10 @@ testFive = int(input('Enter a score for test five: '))
 
 def calcAverage(testOne, testTwo, testThree, testFour, testFive):
     average = (testOne + testTwo + testThree + testFour + testFive) / 5
-
     return average
-def finalGrade(testOne, testTwo, testThree, testFour, testFive):
-    for i in a, b, c, d, e:
+
+def determineGrade(testOne, testTwo, testThree, testFour, testFive):
+    for i in testOne, testTwo, testThree, testFour, testFive:
         if 90 <= i:
             print('The grade of', i, 'is A')
         elif 80 <= i and i <= 89:
@@ -22,4 +22,4 @@ def finalGrade(testOne, testTwo, testThree, testFour, testFive):
             print('The grade of', i, 'is F')
 average = calcAverage(testOne, testTwo, testThree, testFour, testFive)
 print('The average of your scores is', average)
-finalGrade(testOne, testTwo, testThree, testFour, testFive)
+determineGrade(testOne, testTwo, testThree, testFour, testFive)
