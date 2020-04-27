@@ -35,10 +35,10 @@ def choice1():
         if username == login_info[0] and password == login_info[1]:
             print("Correct credentials!")
             input("Press enter to return to main menu\n")
-            main()
+            return True
         elif print("Incorrect credentials."):
             input("Press enter to return to main menu\n")
-            main()
+            return False
 
 
 def choice2():
