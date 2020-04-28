@@ -1,17 +1,8 @@
 # This project contains user id and password validation
 # Designed by Andrew Venenga
-import csv
-import os
+
 import sys
 import re
-import tempfile
-
-try:
-    file_obj = open('password.dat', 'a')
-
-except IOError as e:
-    print(e)
-    print(sys.exc_type)
 
 
 def main():
@@ -19,7 +10,7 @@ def main():
 
 
 def option():
-    print("Welcome to your username and password registration")
+    print("------------Welcome to your username and password registration------------------")
     choice = input("""
     1: to login with your current username and password
     2: for new User
@@ -34,6 +25,8 @@ def option():
     elif choice == '3':
         choice3()
     elif choice == '4':
+        print("You have been logged out")
+        input("Press the fuckin' enter button to exit dumbass.")
         sys.exit()
     else:
         print("Input invalid try again.\n\n")
@@ -50,17 +43,20 @@ def choice1():
             print("Correct credentials!")
             input("Press enter to return to main menu\n")
             option()
-        elif print("Incorrect credentials."):
-            input("Press enter to return to main menu\n")
-            option()
+    print("Incorrect credentials.")
+    input("Press enter to return to main menu\n")
+    option()
 
 
 def choice2():
-    unregex = re.compile("^[a-zA-Z]{1,10}[1-9]{2}$")  # compiling regex for username
+    unregex = re.compile("^[a-zA-Z]{6,10}[1-9]{2}$")  # compiling regex for username
     passregex = re.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$")  # compiling regex for password
     condition = False
     condition2 = False
     while not condition:
+        print("-Username must be between 6 and 10 characters, \n"
+              "Must contain 2 numbers, \n"
+              "NO WHITESPACE!\n  ")
         username = input("Please input your desired username \n")
         if unregex.search(username):
             print("Username is valid")
@@ -70,12 +66,17 @@ def choice2():
             condition = False
 
     while not condition2:
+        print("-Password must be between 6-12 characters, \n"
+              "Must contain 1 number \n"
+              "Must have one uppercase letter and one lowercase\n"
+              "Must NOT CONTAIN your username \n"
+              "NO WHITESPACE!! \n")
         password = input("Please input your desired password \n")
         if password == username:
             print("Password must not be the same as your username!")
             condition2 = False
         elif passregex.search(password):
-            print("Password is valid")
+            print("Password is valid \n")
             condition2 = True
         else:
             print("Password is invalid!!")
@@ -89,53 +90,65 @@ def choice2():
             file.close()
     except IOError:
         print('Missing password.dat file')
+    print("Username and password has been created! \n")
     input("Press enter to return to the main menu \n")
     option()
-    if choice1():
-        print("You are now logged in...\n")
-        input("Press enter to return to main menu\n")
-        main()
-    else:
-        print("You aren't logged in!\n")
-        main()
 
-###
-# TODO figure out how to move everything from password.dat to a list,
-#  then convert that list into a temp file to rewrite password.dat
+
 def choice3():
-    print("Testing choice 3")
-    updated_list = []
-    cached_list = []
+    passregex = re.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$")
+    usernametodl = input("Please enter your username\n")
+    passwordtodl = input("Please enter your password\n")
+    condition = False
+    while True:
+        for lines in open("password.dat", "r").readlines():  # Read the lines
+            login_info = lines.split()  # Split on the space, and store the results in a list of two strings
+            if usernametodl == login_info[0] and passwordtodl == login_info[1]:
+                print("Correct credentials!")
+                while not condition:
+                    print("-Password must be between 6-12 characters, \n"
+                          "Must contain 1 number \n"
+                          "Must have one uppercase letter and one lowercase\n"
+                          "Must NOT CONTAIN your username \n"
+                          "NO WHITESPACE!! \n")
+                    password1 = input("Please input your desired password \n")
+                    if password1 == usernametodl:
+                        print("Password must not be the same as your username!")
+                        condition = False
+                    elif passregex.search(password1):
+                        print("Password is valid")
+                        condition = True
+                        deleteLine(usernametodl, password1)
+                    else:
+                        print("Password is invalid!!")
+                        condition = False
 
-    with open("password.dat", "r") as f:
-        lines = f.read().splitlines()
-
-        reader = list(csv.reader(f))  # Convert iterable to list to make things easier.
-        print("CHANGE PASSWORD?!")
-        username = input("Enter the username for the required user: ")
-        cached_list = reader  # store copy of data.
-
-        for row in reader:  # for every row in the file
-            for field in row:
-                if field == username:  # if a field is == to the required username
-                    updated_list.append(row)  # add each row, line by line, into a list called 'updated_list'
-                    newpassword = input("Enter new password: ")
-                    # print(updatedlist[0][1]) (this is how we get at the password field, noting it is a nested list)
-                    updated_list[0][1] = newpassword  # set the field for password to the new password
-
-        update_password(updated_list, cached_list)
+        print("Incorrect credentials.")
+        input("Press enter to return to main menu\n")
+        option()
 
 
-def update_password(updated_list, cached_list):
-    for index, row in enumerate(cached_list):
-        for field in row:
-            if field == updated_list[0][0]:
-                cached_list[index] = updated_list  # Replace old record with updated record.
+def deleteLine(usernametodl, password1):
+    output = []
+    fn = 'password.dat'
+    f = open(fn)
+    for line in f:
+        if not line.startswith(usernametodl):
+            output.append(line)
+    f.close()
+    f = open(fn, 'w')
+    f.writelines(output)
+    f.close()
+    with open("password.dat", "a") as f:
+        f.write(usernametodl)
+        f.write(" ")
+        f.write(password1)
+        f.write("\n")
+        f.close()
 
-    with open("password.dat", "w") as f:
-        writer = csv.writer(f)
-        writer.writerows(cached_list)
-        print("File has been updated")
+    print("Password has been reset!")
+    input("Press enter to return to the main menu.")
+    option()
 
 
 main()
