@@ -12,10 +12,10 @@ def main():
 def option():
     print("------------Welcome to your username and password registration------------------")
     choice = input("""
-    1: to login with your current username and password
-    2: for new User
-    3: to reset your password.
-    4: to exit.
+    1: Login for returning users
+    2: Registration for new user
+    3: Reset current password.
+    4: Exit.
 
     Enter your choice: """)
     if choice == '1':
@@ -26,7 +26,7 @@ def option():
         choice3()
     elif choice == '4':
         print("You have been logged out")
-        input("Press the fuckin' enter button to exit dumbass.")
+        input("Press enter to exit")
         sys.exit()
     else:
         print("Input invalid try again.\n\n")
@@ -40,10 +40,10 @@ def choice1():
     for line in open("password.dat", "r").readlines():  # Read the lines
         login_info = line.split()  # Split on the space, and store the results in a list of two strings
         if username == login_info[0] and password == login_info[1]:
-            print("Correct credentials!")
+            print("Correct credentials!\n")
             input("Press enter to return to main menu\n")
             option()
-    print("Incorrect credentials.")
+    print("Incorrect credentials.\n")
     input("Press enter to return to main menu\n")
     option()
 
@@ -59,10 +59,10 @@ def choice2():
               "NO WHITESPACE!\n  ")
         username = input("Please input your desired username \n")
         if unregex.search(username):
-            print("Username is valid")
+            print("Username is valid\n")
             condition = True
         else:
-            print("Username invalid!!")
+            print("Username invalid!!\n")
             condition = False
 
     while not condition2:
@@ -73,13 +73,13 @@ def choice2():
               "NO WHITESPACE!! \n")
         password = input("Please input your desired password \n")
         if password == username:
-            print("Password must not be the same as your username!")
+            print("Password must not be the same as your username!\n")
             condition2 = False
         elif passregex.search(password):
             print("Password is valid \n")
             condition2 = True
         else:
-            print("Password is invalid!!")
+            print("Password is invalid!!\n")
             condition2 = False
     try:
         with open("password.dat", "a") as file:
@@ -104,7 +104,7 @@ def choice3():
         for lines in open("password.dat", "r").readlines():  # Read the lines
             login_info = lines.split()  # Split on the space, and store the results in a list of two strings
             if usernametodl == login_info[0] and passwordtodl == login_info[1]:
-                print("Correct credentials!")
+                print("Correct credentials!\n")
                 while not condition:
                     print("-Password must be between 6-12 characters, \n"
                           "Must contain 1 number \n"
@@ -113,14 +113,14 @@ def choice3():
                           "NO WHITESPACE!! \n")
                     password1 = input("Please input your desired password \n")
                     if password1 == usernametodl:
-                        print("Password must not be the same as your username!")
+                        print("Password must not be the same as your username!\n")
                         condition = False
                     elif passregex.search(password1):
-                        print("Password is valid")
+                        print("Password is valid\n")
                         condition = True
                         deleteLine(usernametodl, password1)
                     else:
-                        print("Password is invalid!!")
+                        print("Password is invalid!!\n")
                         condition = False
 
         print("Incorrect credentials.")
@@ -147,7 +147,7 @@ def deleteLine(usernametodl, password1):
         f.close()
 
     print("Password has been reset!")
-    input("Press enter to return to the main menu.")
+    input("Press enter to return to the main menu.\n")
     option()
 
 
