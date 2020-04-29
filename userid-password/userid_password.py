@@ -9,7 +9,7 @@ def main():
     option()
 
 
-def option():
+def option():  # Basic menu
     print("------------Welcome to your username and password registration------------------")
     choice = input("""
     1: Login for returning users
@@ -65,24 +65,24 @@ def choice2():
             print("Username invalid!!\n")
             condition = False
 
-    while not condition2:
+    while not condition2:  # Basic loop to test if the password matches the passregex
         print("-Password must be between 6-12 characters, \n"
               "Must contain 1 number \n"
               "Must have one uppercase letter and one lowercase\n"
               "Must NOT CONTAIN your username \n"
               "NO WHITESPACE!! \n")
         password = input("Please input your desired password \n")
-        if password == username:
+        if password == username:  # if the password is the same as the username, the password is invalid
             print("Password must not be the same as your username!\n")
             condition2 = False
-        elif passregex.search(password):
+        elif passregex.search(password):  # if the password matches the regex, the password is valid.
             print("Password is valid \n")
             condition2 = True
         else:
             print("Password is invalid!!\n")
             condition2 = False
-    try:
-        with open("password.dat", "a") as file:
+    try:  # try to open the file
+        with open("password.dat", "a") as file:  # appends the file and adds the user
             file.write(username)
             file.write(" ")
             file.write(password)
@@ -101,51 +101,65 @@ def choice3():
     passwordtodl = input("Please enter your password\n")
     condition = False
     while True:
-        for lines in open("password.dat", "r").readlines():  # Read the lines
-            login_info = lines.split()  # Split on the space, and store the results in a list of two strings
-            if usernametodl == login_info[0] and passwordtodl == login_info[1]:
-                print("Correct credentials!\n")
-                while not condition:
-                    print("-Password must be between 6-12 characters, \n"
-                          "Must contain 1 number \n"
-                          "Must have one uppercase letter and one lowercase\n"
-                          "Must NOT CONTAIN your username \n"
-                          "NO WHITESPACE!! \n")
-                    password1 = input("Please input your desired password \n")
-                    if password1 == usernametodl:
-                        print("Password must not be the same as your username!\n")
-                        condition = False
-                    elif passregex.search(password1):
-                        print("Password is valid\n")
-                        condition = True
-                        deleteLine(usernametodl, password1)
-                    else:
-                        print("Password is invalid!!\n")
-                        condition = False
-
+        try:
+            for lines in open("password.dat", "r").readlines():  # Read the lines
+                login_info = lines.split()  # Split on the space, and store the results in a list of two strings
+                if usernametodl == login_info[0] and passwordtodl == login_info[1]:  # username and password line
+                    # split in a list
+                    print("Correct credentials!\n")
+                    while not condition:
+                        print("-Password must be between 6-12 characters, \n"
+                              "Must contain 1 number \n"
+                              "Must have one uppercase letter and one lowercase\n"
+                              "Must NOT CONTAIN your username \n"
+                              "NO WHITESPACE!! \n")
+                        password1 = input("Please input your desired password \n")
+                        if password1 == usernametodl:
+                            print("Password must not be the same as your username!\n")
+                            condition = False
+                        elif passregex.search(password1):
+                            print("Password is valid\n")
+                            condition = True
+                            deleteLine(usernametodl, password1)
+                        else:
+                            print("Password is invalid!!\n")
+                            condition = False
+        except IOError:
+            print('Missing password.dat file')
         print("Incorrect credentials.")
         input("Press enter to return to main menu\n")
         option()
 
 
 def deleteLine(usernametodl, password1):
-    output = []
+    output = []  # list for rewriting password.dat file
     fn = 'password.dat'
-    f = open(fn)
-    for line in f:
-        if not line.startswith(usernametodl):
-            output.append(line)
-    f.close()
-    f = open(fn, 'w')
-    f.writelines(output)
-    f.close()
-    with open("password.dat", "a") as f:
-        f.write(usernametodl)
-        f.write(" ")
-        f.write(password1)
-        f.write("\n")
+    try:
+        f = open(fn)
+        ##
+        # this loop is designed to take everything currently in the password.dat file,
+        # and overwrite the file with everything BUT the username and password being changed
+        for line in f:
+            if not line.startswith(usernametodl):
+                output.append(line)
         f.close()
-
+    except IOError:
+        print('Missing password.dat file')
+    try:
+        f = open(fn, 'w')
+        f.writelines(output)  # file rewritten
+        f.close()
+    except IOError:
+        print('Missing password.dat file')
+    try:
+        with open("password.dat", "a") as f:  # new password is written to the end of the file
+            f.write(usernametodl)
+            f.write(" ")
+            f.write(password1)
+            f.write("\n")
+            f.close()
+    except IOError:
+        print('Missing password.dat file')
     print("Password has been reset!")
     input("Press enter to return to the main menu.\n")
     option()
